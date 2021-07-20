@@ -48,6 +48,12 @@ func (m Matrix) addMatrices (n Matrix) Matrix {
 	return ans
 }
 
+func (m Matrix) printJson() {
+	fmt.Printf("%+v", m)
+	//fmt.Println("\tcols:", m.cols, ",")
+	//fmt.Println("\telements:", m.elements, "\n}")
+}
+
 func main(){
 	fmt.Println("Enter rows and columns: ")
 	var rows, cols int
@@ -65,4 +71,5 @@ func main(){
 	matrix2.setValues()
 	fmt.Println(matrix2)
 	fmt.Println(matrix1.addMatrices(matrix2))
+	matrix1.printJson()
 }
