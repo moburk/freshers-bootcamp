@@ -1,57 +1,66 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"log"
+)
 
 type Matrix struct {
-	rows, cols int
-	elements [][]int
+	Rows int `json:"rows"` // uncapitalized fields are ignored by json.Marshal
+	Cols int `json:"cols"`
+	Elements [][]int `json:"elements"`
 }
 
-func (m Matrix) init() {
-	for i := range m.elements {
-		m.elements[i] = make([]int, m.cols)
+func (m *Matrix) init() {
+	for i := range m.Elements {
+		m.Elements[i] = make([]int, m.Cols)
 	}
 }
 
 func (m *Matrix) setValues() {
-	for i:=0; i<m.rows; i++ {
-		for j:=0; j<m.cols; j++{
-			m.elements[i][j] = i*(m.rows-1) + j
+	for i:=0; i<m.Rows; i++ {
+		for j:=0; j<m.Cols; j++{
+			m.Elements[i][j] = i*(m.Rows-1) + j
 		}
 	}
 }
 
 func (m Matrix) getRows() int {
-	return m.rows
+	return m.Rows
 }
 
 func (m Matrix) getColumns() int {
-	return m.cols
+	return m.Cols
 }
 
-func (m Matrix) setElement(i, j, val int) {
-	if i < 0 || j < 0 || i >= m.rows || j >= m.cols {
-		fmt.Println("Index out of bounds")
-		return
+func (m *Matrix) setElement(i, j, val int) error {
+	if i < 0 || j < 0 || i >= m.Rows || j >= m.Cols {
+		return errors.New("index out of bounds")
 	}
-	m.elements[i][j] = val
+	m.Elements[i][j] = val
+	return nil
 }
 
 func (m Matrix) addMatrices (n Matrix) Matrix {
-	ans := Matrix{m.rows, m.cols, make([][]int, m.rows)}
+	ans := Matrix{m.Rows, m.Cols, make([][]int, m.Rows)}
 	ans.init()
-	for i := range m.elements {
-		for j := range m.elements[i] {
-			ans.elements[i][j] = m.elements[i][j] + n.elements[i][j]
+	for i := range m.Elements {
+		for j := range m.Elements[i] {
+			ans.Elements[i][j] = m.Elements[i][j] + n.Elements[i][j]
 		}
 	}
 	return ans
 }
 
 func (m Matrix) printJson() {
-	fmt.Printf("%+v", m)
-	//fmt.Println("\tcols:", m.cols, ",")
-	//fmt.Println("\telements:", m.elements, "\n}")
+	//fmt.Printf("%+v", m)
+	json1, err := json.MarshalIndent(m, "", "\t")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(string(json1))
 }
 
 func main(){
@@ -62,14 +71,17 @@ func main(){
 	matrix1 := Matrix{ rows, cols, make([][]int, rows)}
 	matrix1.init()
 	fmt.Println(matrix1)
-	fmt.Println(matrix1.getRows())
-	fmt.Println(matrix1.getColumns())
-	matrix1.setElement(1, 1, 5)
-	fmt.Println(matrix1.elements)
+	fmt.Println("Rows =", matrix1.getRows())
+	fmt.Println("Columns =", matrix1.getColumns())
+	err := matrix1.setElement(2, 1, 5)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(matrix1.Elements)
 	matrix2 := Matrix{ rows, cols, make([][]int, rows)}
 	matrix2.init()
 	matrix2.setValues()
 	fmt.Println(matrix2)
 	fmt.Println(matrix1.addMatrices(matrix2))
-	matrix1.printJson()
+	matrix2.printJson()
 }

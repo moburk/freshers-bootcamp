@@ -13,6 +13,10 @@ type Fulltime struct{
 type Freelancer struct {
 	basePay, hours int
 }
+// USE COMPOSITION
+func(emp Employee) {
+	fmt.Println("Salary:", emp.calcSalary())
+}
 
 func main(){
 	var emp1 Employee
