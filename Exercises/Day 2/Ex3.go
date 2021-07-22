@@ -24,17 +24,17 @@ func (account *bankAccount) deposit(money int, wg *sync.WaitGroup) {
 	account.mu.Unlock()
 }
 
-func (account *bankAccount) withdraw(money int) error{
-	account.mu.Lock()
-	defer account.mu.Unlock()
-	if account.accountBalance < money {
-		fmt.Println("err")
-		return nil
-		//return errors.New("could not withdraw money due to insufficient balance")
-	}
-	account.accountBalance += money
-	return nil
-}
+//func (account *bankAccount) withdraw(money int) error{
+//	account.mu.Lock()
+//	defer account.mu.Unlock()
+//	if account.accountBalance < money {
+//		fmt.Println("err")
+//		return nil
+//		//return errors.New("could not withdraw money due to insufficient balance")
+//	}
+//	account.accountBalance += money
+//	return nil
+//}
 
 func main() {
 	var person1 = person{
