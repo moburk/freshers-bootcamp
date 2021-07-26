@@ -4,6 +4,11 @@ import (
 	"Github-Projects/freshers-bootcamp/Exercises/Day-3/student-api/Config"
 	"fmt"
 )
+
+type StudentInterface interface {
+
+}
+
 //GetAllUsers Fetch all user data
 func GetAllStudents(user *[]Student) (err error) {
 	if err = Config.DB.Find(user).Error; err != nil {

@@ -7,8 +7,14 @@ import (
 	"net/http"
 )
 
-// GetUsers get all users
-func GetStudents(c *gin.Context) {
+type studentInterface interface {
+	getStudents(c *gin.Context)
+}
+
+type StudentController struct {
+}
+
+func (student StudentController) getStudents(c *gin.Context) {
 	var user []Models.Student
 	err := Models.GetAllStudents(&user)
 	if err != nil {
@@ -18,7 +24,19 @@ func GetStudents(c *gin.Context) {
 	}
 }
 
-// CreateUser create user
+var studentCaller studentInterface
+
+func init() {
+	studentCaller = StudentController{}
+}
+
+//GetStudents returns all students from DB
+func GetStudents(c *gin.Context) {
+	studentCaller.getStudents(c)
+}
+
+
+//CreateStudent create student
 func CreateStudent(c *gin.Context) {
 	var user Models.Student
 	c.BindJSON(&user)
