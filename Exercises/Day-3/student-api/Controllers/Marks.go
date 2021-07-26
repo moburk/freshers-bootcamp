@@ -45,7 +45,7 @@ func GetMarksByID(c *gin.Context) {
 //GetMarksByStudentID Get the user by id
 func GetMarksByStudentID(c *gin.Context) {
 	id := c.Params.ByName("id")
-	var user Models.Marks
+	var user []Models.Marks
 	err := Models.GetMarksByStudentID(&user, id)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -57,7 +57,7 @@ func GetMarksByStudentID(c *gin.Context) {
 // GetMarksBySubjectID Get the user by id
 func GetMarksBySubjectID(c *gin.Context) {
 	id := c.Params.ByName("id")
-	var user Models.Marks
+	var user []Models.Marks
 	err := Models.GetMarksBySubjectID(&user, id)
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)

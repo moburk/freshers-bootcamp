@@ -28,15 +28,15 @@ func GetMarksByID(marks *Marks, id string) (err error) {
 }
 
 //GetMarksByStudentID ... Fetch only one user by Id
-func GetMarksByStudentID(marks *Marks, id string) (err error) {
-	if err = Config.DB.Where("StudentID = ?", id).Find(marks).Error; err != nil {
+func GetMarksByStudentID(marks *[]Marks, id string) (err error) {
+	if err = Config.DB.Where("student_id = ?", id).Find(marks).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
-func GetMarksBySubjectID(marks *Marks, id string) (err error) {
-	if err = Config.DB.Where("SubjectID = ?", id).Find(marks).Error; err != nil {
+func GetMarksBySubjectID(marks *[]Marks, id string) (err error) {
+	if err = Config.DB.Where("subject_id = ?", id).Find(marks).Error; err != nil {
 		return err
 	}
 	return nil

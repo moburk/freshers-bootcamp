@@ -12,7 +12,7 @@ import (
 var err error
 func main() {
 	Config.DB, err = gorm.Open( mysql.Open(Config.DbURL(Config.BuildDBConfig())),
-		&gorm.Config{ DisableForeignKeyConstraintWhenMigrating: true })
+		&gorm.Config{})
 	if err != nil {
 		fmt.Println("Status:", err)
 	}
