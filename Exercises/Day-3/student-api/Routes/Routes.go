@@ -9,6 +9,9 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
+	r.GET("/student-api", func(ctx *gin.Context) {
+		ctx.String(200,"Running successfully")
+	})
 	grp1 := r.Group("/student-api/students")
 	{
 		grp1.GET("", Controllers.GetStudents)
