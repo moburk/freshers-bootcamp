@@ -27,7 +27,13 @@ func (cs *ControllerStruct) AddProduct(c *gin.Context){
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, product)
+	c.JSON(http.StatusOK, gin.H {
+		"id":product.ID,
+		"product_name":product.ProductName,
+		"price":product.Price,
+		"quantity":product.Quantity,
+		"message":"product successfully added",
+	})
 }
 
 //UpdateProductByID Check if product exists. if yes, update
@@ -84,5 +90,5 @@ func (cs *ControllerStruct) GetProducts(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, products)
+	c.JSON(http.StatusOK, gin.H{"products" : products})
 }

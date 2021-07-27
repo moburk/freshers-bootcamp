@@ -1,6 +1,5 @@
 package Repo
 
-import "C"
 import (
 	"Github-Projects/freshers-bootcamp/Exercises/Day-4/retailer-api/Models"
 	"errors"

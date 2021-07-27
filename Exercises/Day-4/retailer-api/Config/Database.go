@@ -26,6 +26,7 @@ func SetupDatabase() {
 		log.Fatalln(err)
 	}
 	db.AutoMigrate(&Models.Product{}, &Models.Customer{}, &Models.Order{})
+	populateDB(db)
 	DB = db
 }
 
@@ -48,6 +49,25 @@ func dbURL(dbConfig *dbConfigure) string {
 		dbConfig.Port,
 		dbConfig.DBName,
 	)
+}
+
+func populateDB(db *gorm.DB) {
+	var customers = []Models.Customer{
+		{ID: "CST12345", CustomerName: "Mohammed"},
+		{ID: "CST12346", CustomerName: "Gopher"},
+		{ID: "CST12347", CustomerName: "Razorpay"},
+		{ID: "CST12348", CustomerName: "Hello"},
+		{ID: "CST12349", CustomerName: "World"},
+	}
+	db.Create(&customers)
+	var products = []Models.Product{
+		{ID: "PROD12340", ProductName: "Hammer", Price: 100, Quantity: 50},
+		{ID: "PROD12341", ProductName: "Tent", Price: 1000, Quantity: 5},
+		{ID: "PROD12342", ProductName: "Screwdriver", Price: 100, Quantity: 50},
+		{ID: "PROD12343", ProductName: "Scooter", Price: 50000, Quantity: 10},
+		{ID: "PROD12344", ProductName: "Guitar", Price: 4000, Quantity: 15},
+	}
+	db.Create(&products)
 }
 
 func GetDB() *gorm.DB {

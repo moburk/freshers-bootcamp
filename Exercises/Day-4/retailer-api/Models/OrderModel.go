@@ -1,15 +1,12 @@
 package Models
 
 import (
-	"gorm.io/gorm"
 	"time"
 )
 
 type Order struct {
 	ID string `json:"id" gorm:"size:10""`
 	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
 	CustomerID string `json:"customer_id"`
 	customer Customer `gorm:"foreignkey:customer_id; constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	ProductID string `json:"product_id"`

@@ -71,7 +71,7 @@ func (cs *ControllerStruct) GetOrderByID(c *gin.Context) {
 		return
 	}
 	if !exists {
-		c.JSON(http.StatusNoContent, "Order does not exist")
+		c.JSON(http.StatusOK, "Order does not exist")
 		return
 	}
 	c.JSON(http.StatusOK, product)
