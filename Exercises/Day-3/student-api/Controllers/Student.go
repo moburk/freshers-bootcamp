@@ -8,20 +8,10 @@ import (
 )
 
 type studentInterface interface {
-	getStudents(c *gin.Context)
+	getStudents(c *gin.Context, students *[]Models.Student) error
 }
 
 type StudentController struct {
-}
-
-func (student StudentController) getStudents(c *gin.Context) {
-	var user []Models.Student
-	err := Models.GetAllStudents(&user)
-	if err != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-	} else {
-		c.JSON(http.StatusOK, user)
-	}
 }
 
 var studentCaller studentInterface
@@ -30,9 +20,20 @@ func init() {
 	studentCaller = StudentController{}
 }
 
+func (student StudentController) getStudents(c *gin.Context, students *[]Models.Student) error {
+	err := Models.GetAllStudents(students)
+	return err
+}
+
 //GetStudents returns all students from DB
 func GetStudents(c *gin.Context) {
-	studentCaller.getStudents(c)
+	var students []Models.Student
+	err := studentCaller.getStudents(c, &students)
+	if err != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+	} else {
+		c.JSON(http.StatusOK, students)
+	}
 }
 
 

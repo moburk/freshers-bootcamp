@@ -1,7 +1,7 @@
 package Models
 
 type Marks struct {
-	//gorm.Model
+	//gorm.Model // on cascade delete does not work if we have gorm.Model
 	ID uint `json:"id"`
 	StudentID uint `json:"student_id"` //sql:"REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE"`
 	Student Student `gorm:"foreignkey:student_id; constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
