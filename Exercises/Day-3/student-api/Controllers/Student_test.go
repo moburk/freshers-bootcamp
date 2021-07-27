@@ -3,9 +3,9 @@ package Controllers
 import (
 	"Github-Projects/freshers-bootcamp/Exercises/Day-3/student-api/Models"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -48,6 +48,6 @@ func TestGetStudents(t *testing.T) {
 	GetStudents(c)
 	assert.Equal(t, http.StatusOK, w.Code)
 	//require.JSONEq(t, string(studentExample), )
-	log.Println(studentExample)
+	fmt.Println(w)
 
 }
