@@ -61,7 +61,7 @@ func GetStudentByID(c *gin.Context) {
 	}
 }
 
-// UpdateUser update the user information
+//UpdateStudent update the student information
 func UpdateStudent(c *gin.Context) {
 	var user Models.Student
 	id := c.Params.ByName("id")
