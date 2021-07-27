@@ -27,3 +27,27 @@ func GetOrderByID(id string, db *gorm.DB) (Models.Order, bool, error) {
 	}
 	return order, true, nil
 }
+
+//GetAllOrders get all orders from database
+func GetAllOrders(db *gorm.DB) ([]Models.Order, error) {
+	var orders []Models.Order
+	if err := db.Find(&orders).Error; err != nil {
+		return orders, err
+	}
+	return orders, nil
+}
+
+func GetCustomerOrders(id string, db *gorm.DB) ([]Models.Order, bool, error) {
+	var orders []Models.Order
+	query := db.Select("orders.*")
+	query = query.Group("orders.id")
+	err := query.Where("orders.customer_id = ?", id).Find(&orders).Error
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return orders, false, err
+	}
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return orders, false, nil
+	}
+	return orders, true, nil
+}

@@ -20,6 +20,13 @@ func SetupRouter() *gin.Engine {
 		grp1.GET("products", controllerStruct.GetProducts)
 		grp1.POST("order", controllerStruct.PlaceOrder)
 		grp1.GET("order/:id", controllerStruct.GetOrderByID)
+		grp1.GET("customer/:id", controllerStruct.GetCustomerOrders)
 	}
+
+	authorized := r.Group("/retail-api/owner", gin.BasicAuth(gin.Accounts{
+		"admin": "1234",
+	}))
+
+	authorized.GET("", controllerStruct.GetAllOrders)
 	return r
 }

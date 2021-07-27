@@ -76,3 +76,36 @@ func (cs *ControllerStruct) GetOrderByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, product)
 }
+
+//GetAllOrders get all orders by calling another function for a DB call
+func (cs *ControllerStruct) GetAllOrders(c *gin.Context) {
+	orders, err := Repo.GetAllOrders(cs.DB)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"orders" : orders})
+}
+
+func (cs *ControllerStruct) GetCustomerOrders(c *gin.Context) {
+	id := c.Params.ByName("id")
+	exists, err := Repo.CheckCustomerExists(id, cs.DB)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	var orders []Models.Order
+	orders, exists, err = Repo.GetCustomerOrders(id, cs.DB)
+	if err != nil {
+		fmt.Println(err)
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	if !exists {
+		c.JSON(http.StatusNotFound, "No orders for this customer")
+		return
+	}
+	c.JSON(http.StatusOK, orders)
+}
